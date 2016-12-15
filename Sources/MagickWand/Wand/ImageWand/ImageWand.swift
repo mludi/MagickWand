@@ -73,6 +73,35 @@ public class ImageWand: Wand {
         self.pointer = pointer
     }
     
+    public convenience init?(color: String) {
+        self.init()
+        guard let pixel = PixelWand() else { return nil }
+        print("color)")
+        
+        _ = color.withCString { name in
+            PixelSetColor(pixel.pointer, name)
+        }
+//
+//        self.background = pixel
+        
+        var image: OpaquePointer? = NewMagickWand()
+        MagickNewImage(image, 800, 800, pixel.pointer)
+        var a: Int = 0
+        var size = 0
+        MagickGetImageBlob(image, &a)
+        _ = "*".withCString { format in
+            MagickSetFormat(image, format)//MagickSetImageFormat(image, format)
+        }
+        print("\(image), \(a), \(MagickGetImageWidth(image)), \(MagickGetImageBlob(image, &size))")
+        
+        
+        print("\(CloneMagickWand(image)), \(a), \(MagickGetImageWidth(CloneMagickWand(image))), \(MagickGetImageBlob(CloneMagickWand(image), &size))")
+        
+        
+        
+//        MagickConstituteImage(<#T##OpaquePointer!#>, <#T##Int#>, <#T##Int#>, <#T##UnsafePointer<Int8>!#>, <#T##StorageType#>, <#T##UnsafeRawPointer!#>)
+    }
+    
     public func clear() {
         ClearMagickWand(self.pointer)
     }

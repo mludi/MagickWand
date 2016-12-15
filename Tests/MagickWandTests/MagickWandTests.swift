@@ -27,9 +27,23 @@ class MagickWandTests: XCTestCase {
         
         XCTAssertTrue(MagickWand.isInstantiated)
         
+        let url = URL(fileURLWithPath: "img.png")
+        print(url)
+        print(url.absoluteString)
+        
+        let data = ImageWand(color: "red")?.data
+        do {
+            print(data)
+        try data!.write(to: url)
+        } catch {
+            print(error)
+        }
+        
         MagickWand.terminus()
         
         XCTAssertFalse(MagickWand.isInstantiated)
+        
+        
     }
 
 

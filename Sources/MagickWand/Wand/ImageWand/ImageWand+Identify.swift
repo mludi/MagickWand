@@ -38,6 +38,7 @@ extension ImageWand {
         get {
             return MagickWand.getString(from: self.pointer, using: MagickGetFormat)
         }
+        
         set {
             MagickSetFormat(self.pointer, (newValue ?? "").cString(using: .utf8))
         }
